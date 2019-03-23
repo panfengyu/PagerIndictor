@@ -1,4 +1,4 @@
-package fy.learn.com.pagerindictor;
+package fy.learn.com.pagerindictor.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
-import com.fy.learn.autoview.adapter.BaseAdapter;
+import fy.learn.com.pagerindictor.adapter.BaseAdapter;
+import fy.learn.com.pagerindictor.util.SizeUtil;
+
 
 /**
  * Created by Panfengyu on 2018/12/18.
@@ -84,9 +86,7 @@ public class CommonTitleScrollView extends HorizontalScrollView {
         }
         mOnItemSelectedListener = listener;
 
-        if (mOnItemSelectedListener != null) {
-            mOnItemSelectedListener.onItemSelected(mLlContainer.getChildAt(mCurrentItem + 1), mCurrentItem);
-        }
+        mOnItemSelectedListener.onItemSelected(mLlContainer.getChildAt(mCurrentItem + 1), mCurrentItem);
     }
 
     @Override
@@ -96,11 +96,17 @@ public class CommonTitleScrollView extends HorizontalScrollView {
     }
 
     @Override
+    public boolean performClick() {
+        return super.performClick();
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent ev) {
         mVelocityTracker.addMovement(ev);
         int action = ev.getActionMasked();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                performClick();
                 mFingerDownX = (int) ev.getRawX();
                 mFingerDownY = (int) ev.getRawY();
                 mVelocityTracker.clear();
@@ -214,7 +220,7 @@ public class CommonTitleScrollView extends HorizontalScrollView {
         private BaseAdapter mBaseAdapter;
         private int mAddCount;
 
-        public WrapperAdapter(BaseAdapter adapter) {
+        WrapperAdapter(BaseAdapter adapter) {
             mBaseAdapter = adapter;
         }
 
@@ -259,7 +265,7 @@ public class CommonTitleScrollView extends HorizontalScrollView {
             return mAddCount;
         }
 
-        public int getDataCount() {
+        int getDataCount() {
             return mBaseAdapter.getCount();
         }
     }
